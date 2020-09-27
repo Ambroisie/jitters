@@ -1,0 +1,9 @@
+# Program and sources
+bin_PROGRAMS = jitters
+jitters_SOURCES = \
+    %D%/jitters.c \
+    $(NULL)
+
+# Add warnings
+jitters_CFLAGS = $(WARN_CFLAGS)
+jitters_LDFLAGS = $(WARN_LDFLAGS)
