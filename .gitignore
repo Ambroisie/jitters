@@ -9,3 +9,5 @@ configure
 jitters
 .deps/
 .dirstamp
+# `dist` related output
+*.bz2
