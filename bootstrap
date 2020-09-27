@@ -1,0 +1,19 @@
+#! /bin/sh
+
+# Stop on errors
+set -e
+
+# Find where the sources are
+src_dir="$(dirname "$0")"
+test -z "$src_dir" && src_dir=.
+
+# Bootstrap in a subshell
+(
+    cd "$src_dir"
+    autoreconf -fvi
+)
+
+# Call configure, unless NOCONFIGURE is set
+if test -z "$NOCONFIGURE"; then
+    "$src_dir"/configure "$@"
+fi
