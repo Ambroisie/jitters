@@ -6,11 +6,14 @@
 
 int main(void)
 {
-    struct ast_node *res;
+    struct ast_node *ast = NULL;
+    int ret = 0;
     yydebug = getenv("PARSE") != NULL;
-    if (yyparse(&res) == 0) {
-        destroy_ast(res);
+    if ((ret = yyparse(&ast)) == 0) {
+        /* Nothing */
     }
 
-    return 0;
+    destroy_ast(ast);
+
+    return ret;
 }
