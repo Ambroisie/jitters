@@ -17,3 +17,7 @@ src/parse/parse-jitters.h
 src/parse/scan-jitters.c
 # Build directory
 /build/
+# Configuration header
+config.h.in
+config.h
+src/stamp-h1
