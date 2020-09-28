@@ -1,0 +1,4 @@
+jitters_SOURCES += \
+    %D%/evaluator.c \
+    %D%/evaluator.h \
+    $(NULL)
