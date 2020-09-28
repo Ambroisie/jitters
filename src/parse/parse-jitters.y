@@ -1,19 +1,30 @@
+%code requires
+{
+#include "ast/ast.h"
+}
+
 %{
 #include <stdio.h>
+#include "ast/ast.h"
 
 int yylex(void);
-void yyerror(int *unused,char const *s);
+void yyerror(struct ast_node **unused, char const *s);
 %}
 
-%define api.value.type {int}
+%union
+{
+    int num;
+    struct ast_node *node;
+}
+
 %define api.token.prefix {TOK_}
 %define parse.error verbose
 %define parse.trace true
-%parse-param {int *result}
+%parse-param {struct ast_node **ast}
 %locations
 
 %token EOF 0 "end-of-file"
-%token NUM "number"
+%token <num> NUM "number"
 %token
      PLUS "+"
      MINUS "-"
@@ -26,30 +37,35 @@ void yyerror(int *unused,char const *s);
 %left TIMES DIVIDE
 %precedence NEG
 
+// Type of our built AST
+%type <node> exp
+// Use destructor function when discarding tokens
+%destructor { destroy_ast($$); } <node>
+
 %%
 
 input:
   exp EOF
-  { *result = $1; }
+  { *ast = $1; }
 ;
 
 exp:
   NUM
-  { $$ = $1; }
+  { $$ = make_num($1); }
 
 | exp PLUS exp
-  { $$ = $1 + $3; }
+  { $$ = make_binop(PLUS, $1, $3); }
 | exp MINUS exp
-  { $$ = $1 - $3; }
+  { $$ = make_binop(MINUS, $1, $3); }
 | exp TIMES exp
-  { $$ = $1 * $3; }
+  { $$ = make_binop(TIMES, $1, $3); }
 | exp DIVIDE exp
-  { $$ = $1 / $3; }
+  { $$ = make_binop(DIVIDE, $1, $3); }
 
 | PLUS exp %prec NEG
-  { $$ = $2; }
+  { $$ = make_unop(IDENTITY, $2); }
 | MINUS exp %prec NEG
-  { $$ = -$2; }
+  { $$ = make_unop(NEGATE, $2); }
 
 | LPAREN exp RPAREN
   { $$ = $2; }
@@ -57,7 +73,7 @@ exp:
 
 %%
 
-void yyerror(int *unused, char const *s)
+void yyerror(struct ast_node **unused, char const *s)
 {
     unused = unused; // Unused
     fprintf(stderr, "%s\n", s);

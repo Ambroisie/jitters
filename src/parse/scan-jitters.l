@@ -36,7 +36,7 @@ int   [0-9]+
 ")" return TOK_RPAREN;
 
 {int} {
-    yylval = atoi(yytext);
+    yylval.num = atoi(yytext);
     return TOK_NUM;
 }
 
