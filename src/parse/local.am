@@ -1,0 +1,27 @@
+# Do not warn about YACC compatibility, but do output token codes
+AM_YFLAGS = -Wno-yacc -d
+
+# Add parsing library to `jitters`
+jitters_LDADD += \
+    libparse.a \
+    $(NULL)
+# Declare library as non-installable
+noinst_LIBRARIES += \
+    libparse.a \
+    $(NULL)
+# Add Flex/Bison sources to parsing library
+libparse_a_SOURCES = \
+    %D%/parse-jitters.y \
+    %D%/scan-jitters.l \
+    $(NULL)
+# Mark their output files as being built by Flex/Bison
+BUILT_SOURCES += \
+    %D%/parse-jitters.c \
+    %D%/parse-jitters.h \
+    %D%/scan-jitters.c \
+    $(NULL)
+
+# Remove problematic warnings from generated files
+libparse_a_CFLAGS = \
+    -Wno-switch-default \
+    $(NULL)

@@ -7,3 +7,11 @@ jitters_SOURCES = \
 # Add warnings
 jitters_CFLAGS = $(WARN_CFLAGS)
 jitters_LDFLAGS = $(WARN_LDFLAGS)
+
+# Make includes cleaner
+AM_CPPFLAGS = -I$(top_builddir)/src -I$(srcdir)
+
+# Initialise those variables for use in included files
+jitters_LDADD =
+
+include %D%/parse/local.am
