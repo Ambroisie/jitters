@@ -15,6 +15,7 @@ AM_CPPFLAGS = -I$(top_builddir)/src -I$(top_srcdir)/src
 jitters_LDADD =
 
 include %D%/ast/local.am
+include %D%/compile/local.am
 include %D%/eval/local.am
 include %D%/parse/local.am
 include %D%/print/local.am

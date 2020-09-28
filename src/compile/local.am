@@ -1,0 +1,4 @@
+jitters_SOURCES += \
+    %D%/compiler.c \
+    %D%/compiler.h \
+    $(NULL)
