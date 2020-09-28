@@ -11,3 +11,7 @@ jitters
 .dirstamp
 # `dist` related output
 *.bz2
+# Flex/Bison output files
+src/parse/parse-jitters.c
+src/parse/parse-jitters.h
+src/parse/scan-jitters.c
