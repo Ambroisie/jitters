@@ -32,4 +32,12 @@ AC_PROG_CC_STDC
 # Warnings
 AX_COMPILER_FLAGS([], [], [], [-Wall -Wextra -pedantic])
 
+# Use Flex/Lex
+AM_PROG_LEX
+# Use Bion/Yacc
+AC_PROG_YACC
+# Use libraries
+AM_PROG_AR
+AC_PROG_RANLIB
+
 AC_OUTPUT
