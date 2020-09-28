@@ -9,7 +9,7 @@ jitters_CFLAGS = $(WARN_CFLAGS)
 jitters_LDFLAGS = $(WARN_LDFLAGS)
 
 # Make includes cleaner
-AM_CPPFLAGS = -I$(top_builddir)/src -I$(srcdir)
+AM_CPPFLAGS = -I$(top_builddir)/src -I$(top_srcdir)/src
 
 # Initialise those variables for use in included files
 jitters_LDADD =
