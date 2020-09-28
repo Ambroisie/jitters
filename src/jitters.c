@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "ast/ast.h"
+#include "print/printer.h"
 #include "parse/parse-jitters.h"
 
 int main(void)
@@ -10,7 +11,8 @@ int main(void)
     int ret = 0;
     yydebug = getenv("PARSE") != NULL;
     if ((ret = yyparse(&ast)) == 0) {
-        /* Nothing */
+        printer_ast(ast);
+        putchar('\n');
     }
 
     destroy_ast(ast);
