@@ -15,3 +15,5 @@ jitters
 src/parse/parse-jitters.c
 src/parse/parse-jitters.h
 src/parse/scan-jitters.c
+# Build directory
+/build/
