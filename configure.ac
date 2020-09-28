@@ -19,6 +19,7 @@ AM_INIT_AUTOMAKE([foreign subdir-objects
 AM_SILENT_RULES([yes])
 AC_CONFIG_SRCDIR([src/jitters.c])
 AC_CONFIG_FILES([Makefile])
+AC_CONFIG_HEADERS([src/config.h])
 
 # Activate release-mode when there is no dash in version
 AX_IS_RELEASE([dash-version])
