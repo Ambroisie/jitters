@@ -47,4 +47,11 @@ AC_PROG_YACC
 AM_PROG_AR
 AC_PROG_RANLIB
 
+# We need GNU argp for argument parsing
+AC_CHECK_HEADERS(
+    [argp.h],
+    [],
+    [AC_MSG_ERROR([GNU Argp is needed to parse arguments])]
+)
+
 AC_OUTPUT
