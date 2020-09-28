@@ -1,0 +1,4 @@
+jitters_SOURCES += \
+    %D%/ast.c \
+    %D%/ast.h \
+    $(NULL)
