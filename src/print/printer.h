@@ -1,8 +1,10 @@
 #ifndef PRINTER_H
 #define PRINTER_H
 
+#include <stdio.h>
+
 #include "ast/ast.h"
 
-void printer_ast(const struct ast_node *ast);
+void print_ast(const struct ast_node *ast, FILE *file);
 
 #endif /* !PRINTER_H */
