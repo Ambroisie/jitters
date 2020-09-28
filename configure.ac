@@ -32,6 +32,12 @@ AC_PROG_CC_STDC
 # Warnings
 AX_COMPILER_FLAGS([], [], [], [-Wall -Wextra -pedantic])
 
+# Use Address-santizer in debug, if it is available
+AS_IF(
+    [test "x$ax_enable_debug" = "xyes"],
+    [AX_APPEND_COMPILE_FLAGS([-fsanitize=address])]
+)
+
 # Use Flex/Lex
 AM_PROG_LEX
 # Use Bion/Yacc
