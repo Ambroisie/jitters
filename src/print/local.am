@@ -1,0 +1,4 @@
+jitters_SOURCES += \
+    %D%/printer.c \
+    %D%/printer.h \
+    $(NULL)

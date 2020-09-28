@@ -16,3 +16,4 @@ jitters_LDADD =
 
 include %D%/ast/local.am
 include %D%/parse/local.am
+include %D%/print/local.am
