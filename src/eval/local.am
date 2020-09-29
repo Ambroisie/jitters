@@ -1,4 +1,12 @@
-jitters_SOURCES += \
+jitters_LDADD += \
+    libeval.a \
+    $(NULL)
+
+noinst_LIBRARIES += \
+    libeval.a \
+    $(NULL)
+
+libeval_a_SOURCES = \
     %D%/evaluator.c \
     %D%/evaluator.h \
     $(NULL)

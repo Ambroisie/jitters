@@ -1,4 +1,12 @@
-jitters_SOURCES += \
+jitters_LDADD += \
+    libjit.a \
+    $(NULL)
+
+noinst_LIBRARIES += \
+    libjit.a \
+    $(NULL)
+
+libjit_a_SOURCES = \
     %D%/jitter.c \
     %D%/jitter.h \
     %D%/vector.h \

@@ -1,4 +1,12 @@
-jitters_SOURCES += \
+jitters_LDADD += \
+    libcompile.a \
+    $(NULL)
+
+noinst_LIBRARIES += \
+    libcompile.a \
+    $(NULL)
+
+libcompile_a_SOURCES = \
     %D%/compiler.c \
     %D%/compiler.h \
     $(NULL)

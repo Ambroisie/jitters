@@ -1,4 +1,12 @@
-jitters_SOURCES += \
+jitters_LDADD += \
+    libprint.a \
+    $(NULL)
+
+noinst_LIBRARIES += \
+    libprint.a \
+    $(NULL)
+
+libprint_a_SOURCES = \
     %D%/printer.c \
     %D%/printer.h \
     $(NULL)

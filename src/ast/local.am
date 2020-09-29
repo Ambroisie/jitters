@@ -1,4 +1,12 @@
-jitters_SOURCES += \
+jitters_LDADD += \
+    libast.a \
+    $(NULL)
+
+noinst_LIBRARIES += \
+    libast.a \
+    $(NULL)
+
+libast_a_SOURCES = \
     %D%/ast.c \
     %D%/ast.h \
     $(NULL)
