@@ -24,4 +24,5 @@ BUILT_SOURCES += \
 # Remove problematic warnings from generated files
 libparse_a_CFLAGS = \
     -Wno-switch-default \
+    -Wno-unused-function \
     $(NULL)

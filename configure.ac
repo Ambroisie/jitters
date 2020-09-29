@@ -31,7 +31,11 @@ AC_PROG_CC_C99
 AC_PROG_CC_STDC
 
 # Warnings
-AX_COMPILER_FLAGS([], [], [], [-Wall -Wextra -pedantic])
+AX_APPEND_COMPILE_FLAGS([-Wall -Wextra -pedantic])
+AS_IF(
+    [test "x$ax_enable_debug" = "xyes"],
+    [AX_APPEND_COMPILE_FLAGS([-Werror])]
+)
 
 # Use Address-santizer in debug, if it is available
 AS_IF(
