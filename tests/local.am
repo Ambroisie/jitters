@@ -3,3 +3,40 @@ TEST_LOG_DRIVER = \
     env AM_TAP_AWK='$(AWK)' $(SHELL) $(top_srcdir)/build-aux/tap-driver.sh
 
 TESTS =
+
+# Distribute the leak suppression file
+EXTRA_DIST += %D%/unit/leak.suppr
+
+if USING_CRITERION
+# Add our testsuite to `make check` only if Criterion is detected
+check_PROGRAMS = testsuite
+
+# Add our testsuite to the TAP driver
+TESTS += $(check_PROGRAMS)
+
+# Setup Criterion TAP output, and suppress leak from Criterion
+AM_TESTS_ENVIRONMENT = \
+    CRITERION_OUTPUTS='tap:-'; \
+    export CRITERION_OUTPUTS; \
+    LSAN_OPTIONS=suppressions=%D%/unit/leak.suppr; \
+    export LSAN_OPTIONS; \
+    $(NULL)
+
+# Unit-test sources
+testsuite_SOURCES = \
+    %D%/unit/common.c \
+    %D%/unit/common.h \
+    %D%/unit/parse.c \
+    $(NULL)
+
+# Libraries being tested
+testsuite_LDADD = \
+    libast.a \
+    libparse.a \
+    $(NULL)
+
+# Needed flags
+testsuite_CFLAGS = $(AM_CFLAGS) $(CRITERION_CFLAGS)
+testsuite_CPPFLAGS = $(AM_CPPFLAGS)
+testsuite_LDFLAGS = $(AM_LDFLAGS) $(CRITERION_LIBS)
+endif
