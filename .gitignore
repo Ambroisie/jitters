@@ -21,3 +21,8 @@ src/parse/scan-jitters.c
 config.h.in
 config.h
 src/stamp-h1
+# Tests
+testsuite
+test-suite.log
+testsuite.log
+testsuite.trs
