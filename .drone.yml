@@ -1,0 +1,23 @@
+kind: pipeline
+name: test correctness
+
+steps:
+  - name: build & check
+    image: oblique/archlinux-yay
+    pull: always
+    commands:
+      - >
+        sudo -u aur yay -Syu --noconfirm --needed
+        base base-devel criterion glib2 autoconf-archive
+      - ./bootstrap
+      - make
+      - make check
+
+  - name: detailed log
+    image: oblique/archlinux-yay
+    pull: always
+    commands:
+      - cat ./test-suite.log
+    when:
+      status:
+      - failure
