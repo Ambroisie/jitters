@@ -26,12 +26,14 @@ AM_TESTS_ENVIRONMENT = \
 testsuite_SOURCES = \
     %D%/unit/common.c \
     %D%/unit/common.h \
+    %D%/unit/eval.c \
     %D%/unit/parse.c \
     $(NULL)
 
 # Libraries being tested
 testsuite_LDADD = \
     libast.a \
+    libeval.a \
     libparse.a \
     $(NULL)
 

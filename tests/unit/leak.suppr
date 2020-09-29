@@ -1,0 +1,2 @@
+# We do not care about criterion leaks
+leak:criterion_handle_args
