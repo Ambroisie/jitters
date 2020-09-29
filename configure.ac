@@ -58,4 +58,22 @@ AC_CHECK_HEADERS(
     [AC_MSG_ERROR([GNU Argp is needed to parse arguments])]
 )
 
+# Check for Criterion
+PKG_CHECK_MODULES(
+    [CRITERION],
+    [criterion],
+    [HAVE_CRITERION=1],
+    [HAVE_CRITERION=0]
+)
+# Make a conditional
+AM_CONDITIONAL([USING_CRITERION], [test "$HAVE_CRITERION" -eq 1])
+# Substitute the defined flags
+AM_COND_IF(
+    [USING_CRITERION],
+    [AC_SUBST([CRITERION_CFLAGS]) AC_SUBST([CRITERION_LIBS])]
+)
+
+# Use Autotools TAP driver
+AC_REQUIRE_AUX_FILE([tap-driver.sh])
+
 AC_OUTPUT
