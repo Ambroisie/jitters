@@ -1,0 +1,5 @@
+jitters_SOURCES += \
+    %D%/jitter.c \
+    %D%/jitter.h \
+    %D%/vector.h \
+    $(NULL)

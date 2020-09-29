@@ -10,6 +10,7 @@
 #include "ast/ast.h"
 #include "compile/compiler.h"
 #include "eval/evaluator.h"
+#include "jit/jitter.h"
 #include "parse/parse-jitters.h"
 #include "print/printer.h"
 
@@ -21,11 +22,12 @@ static char doc[] =
 
 
 static struct argp_option options[] = {
-    {"evaluate", 'e', 0,      0,  "Evaluate input by walking the tree" },
-    {"compile",  'c', 0,      0,  "Compile input to assembly" },
-    {"print",    'p', 0,      0,  "Print parsed expression" },
-    {"output",   'o', "FILE", 0,  "Output to FILE instead of standard output" },
-    {"debug",    'd', 0,      0,  "Emit debug output from parser" },
+    {"evaluate", 'e', 0,      0,  "Evaluate input by walking the tree", 0 },
+    {"compile",  'c', 0,      0,  "Compile input to assembly", 0 },
+    {"jit",      'j', 0,      0,  "JIT-compile input and evaluate", 0 },
+    {"print",    'p', 0,      0,  "Print parsed expression", 0 },
+    {"output",   'o', "FILE", 0,  "Output to FILE instead of standard output", 0 },
+    {"debug",    'd', 0,      0,  "Emit debug output from parser", 0 },
     { 0 }
 };
 
@@ -33,6 +35,7 @@ struct arguments
 {
     bool debug; // Whether to activate Bison using debug trace
     bool compile; // Whether to compile the input
+    bool jit; // Whether to JIT the input
     bool evaluate; // Whether to evaluate the input
     bool print; // Whether to print the input
     const char *output_file; // Where to output
@@ -53,6 +56,9 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state)
     case 'e':
         arguments->evaluate = true;
         break;
+    case 'j':
+        arguments->jit = true;
+        break;
     case 'p':
         arguments->print = true;
         break;
@@ -70,7 +76,7 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state)
     return 0;
 }
 
-static struct argp argp = { options, parse_opt, 0, doc };
+static struct argp argp = { options, parse_opt, 0, doc, 0, 0, 0, };
 
 int main(int argc, char *argv[])
 {
@@ -91,6 +97,8 @@ int main(int argc, char *argv[])
     if ((ret = yyparse(&ast)) == 0) {
         if (arguments.compile)
             compile_ast(ast, output);
+        if (arguments.jit)
+            fprintf(output, "%d\n", jit_eval_ast(ast));
         if (arguments.evaluate)
             fprintf(output, "%d\n", evaluate_ast(ast));
         if (arguments.print)
