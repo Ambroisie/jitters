@@ -12,3 +12,4 @@ noinst_LIBRARIES =
 CLEANFILES = $(BUILT_SOURCES)
 
 include %D%/src/local.am
+include %D%/tests/local.am
