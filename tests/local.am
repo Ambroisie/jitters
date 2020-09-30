@@ -4,8 +4,10 @@ TEST_LOG_DRIVER = \
 
 TESTS =
 
+# Leak suppresion file, because Asan screams about Criterion internals otherwise
+SUPPRESSION_FILE = $(top_srcdir)/%D%/unit/leak.suppr
 # Distribute the leak suppression file
-EXTRA_DIST += %D%/unit/leak.suppr
+EXTRA_DIST += $(SUPPRESSION_FILE)
 
 if USING_CRITERION
 # Add our testsuite to `make check` only if Criterion is detected
@@ -18,7 +20,7 @@ TESTS += $(check_PROGRAMS)
 AM_TESTS_ENVIRONMENT = \
     CRITERION_OUTPUTS='tap:-'; \
     export CRITERION_OUTPUTS; \
-    LSAN_OPTIONS=suppressions=%D%/unit/leak.suppr; \
+    LSAN_OPTIONS='suppressions=$(SUPPRESSION_FILE)'; \
     export LSAN_OPTIONS; \
     $(NULL)
 
