@@ -1,3 +1,4 @@
+---
 kind: pipeline
 name: test correctness
 
@@ -21,3 +22,27 @@ steps:
     when:
       status:
       - failure
+---
+kind: pipeline
+name: test distribution
+
+steps:
+  - name: distcheck
+    image: oblique/archlinux-yay
+    pull: always
+    commands:
+      - >
+        sudo -u aur yay -Syu --noconfirm --needed
+        base base-devel criterion glib2 autoconf-archive
+      - ./bootstrap
+      - make distcheck
+
+  - name: detailed log
+    image: oblique/archlinux-yay
+    pull: always
+    commands:
+      - cat jitters-*/_build/sub/test-suite.log
+    when:
+      status:
+      - failure
+...
