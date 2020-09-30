@@ -9,7 +9,7 @@
 
 TestSuite(evaluate, .init = redirect_streams);
 
-void do_eval(const char *input, int expected)
+static void do_eval(const char *input, int expected)
 {
     write_to_stdin(input);
     struct ast_node *ast = NULL;

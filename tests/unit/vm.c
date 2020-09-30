@@ -5,12 +5,12 @@
 
 #include "ast/ast.h"
 #include "eval/evaluator.h"
-#include "jit/jitter.h"
 #include "parse/parse-jitters.h"
+#include "vm/vm.h"
 
-TestSuite(jit, .init = redirect_streams);
+TestSuite(vm, .init = redirect_streams);
 
-#define ERR_STRING "Input '%s' = %d, JIT got %d\n"
+#define ERR_STRING "Input '%s' = %d, VM got %d\n"
 static void do_compare(const char *input)
 {
     write_to_stdin(input);
@@ -20,119 +20,119 @@ static void do_compare(const char *input)
     cr_assert_not_null(ast);
 
     int eval = evaluate_ast(ast);
-    int jit = jit_eval_ast(ast);
+    int vm = bytecompile_eval_ast(ast);
 
-    cr_expect_eq(eval, jit, ERR_STRING, input, eval, jit);
+    cr_expect_eq(eval, vm, ERR_STRING, input, eval, vm);
 
     destroy_ast(ast);
 }
 
-Test(jit, one)
+Test(vm, one)
 {
     do_compare("1");
 }
 
-Test(jit, the_answer)
+Test(vm, the_answer)
 {
     do_compare("42");
 }
 
-Test(jit, int_max)
+Test(vm, int_max)
 {
     do_compare("2147483647");
 }
 
-Test(jit, int_max_plus_one)
+Test(vm, int_max_plus_one)
 {
     do_compare("2147483647 + 1");
 }
 
-Test(jit, whitespace)
+Test(vm, whitespace)
 {
     do_compare("   1   ");
 }
 
-Test(jit, more_whitespace)
+Test(vm, more_whitespace)
 {
     do_compare("   1   + 2     ");
 }
 
-Test(jit, one_plus_one)
+Test(vm, one_plus_one)
 {
     do_compare("1+1");
 }
 
-Test(jit, one_minus_one)
+Test(vm, one_minus_one)
 {
     do_compare("1-1");
 }
 
-Test(jit, additions)
+Test(vm, additions)
 {
     do_compare("1+1+1+1+1");
 }
 
-Test(jit, substractions)
+Test(vm, substractions)
 {
     do_compare("1-1-1-1-1");
 }
 
-Test(jit, multiplication)
+Test(vm, multiplication)
 {
     do_compare("2 * 3");
 }
 
-Test(jit, multiplications)
+Test(vm, multiplications)
 {
     do_compare("1 * 2 * 3 * 4");
 }
 
-Test(jit, division)
+Test(vm, division)
 {
     do_compare("12 / 3");
 }
 
-Test(jit, divisions)
+Test(vm, divisions)
 {
     do_compare("24 / 4 / 3 / 2");
 }
 
-Test(jit, simple_priority)
+Test(vm, simple_priority)
 {
     do_compare("1  + 2 * 3");
 }
 
-Test(jit, more_priorities)
+Test(vm, more_priorities)
 {
     do_compare("1 + 6 / 3 + 4 * 6 + 14 / 7");
 }
 
-Test(jit, simple_parenthesis)
+Test(vm, simple_parenthesis)
 {
     do_compare("(1 + 2) * 3");
 }
 
-Test(jit, more_parenthesis)
+Test(vm, more_parenthesis)
 {
     do_compare("(1 + 2) * (3 - 4)");
 }
 
-Test(jit, unary_minus)
+Test(vm, unary_minus)
 {
     do_compare("-1");
 }
 
-Test(jit, unary_plus)
+Test(vm, unary_plus)
 {
     do_compare("+1");
 }
 
-Test(jit, unary_torture)
+Test(vm, unary_torture)
 {
     do_compare("--+++--+-+-+-1");
 }
 
-Test(jit, altogether)
+Test(vm, altogether)
 {
     do_compare("  -   3 + - 4 * 8 / 2 + + 3 -- 2 + ((-1) + 1) * 2 ");
 }

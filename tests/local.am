@@ -31,6 +31,7 @@ testsuite_SOURCES = \
     %D%/unit/eval.c \
     %D%/unit/jit.c \
     %D%/unit/parse.c \
+    %D%/unit/vm.c \
     $(NULL)
 
 # Libraries being tested
@@ -39,6 +40,7 @@ testsuite_LDADD = \
     libeval.a \
     libjit.a \
     libparse.a \
+    libvm.a \
     $(NULL)
 
 # Needed flags

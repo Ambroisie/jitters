@@ -8,7 +8,7 @@
 
 TestSuite(parser, .init = redirect_streams);
 
-void do_correct(const char *input)
+static void do_correct(const char *input)
 {
     write_to_stdin(input);
     struct ast_node *ast = NULL;
@@ -19,7 +19,7 @@ void do_correct(const char *input)
     destroy_ast(ast);
 }
 
-void do_incorrect(const char *input)
+static void do_incorrect(const char *input)
 {
     write_to_stdin(input);
     struct ast_node *ast = NULL;
