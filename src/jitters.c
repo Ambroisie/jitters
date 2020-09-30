@@ -13,6 +13,7 @@
 #include "jit/jitter.h"
 #include "parse/parse-jitters.h"
 #include "print/printer.h"
+#include "vm/vm.h"
 
 const char *argp_program_version = PACKAGE_STRING;
 const char *argp_program_bug_address = "<" PACKAGE_BUGREPORT ">";
@@ -23,6 +24,7 @@ static char doc[] =
 
 static struct argp_option options[] = {
     {"evaluate", 'e', 0,      0,  "Evaluate input by walking the tree", 0 },
+    {"virtual",  'v', 0,      0,  "Compile input bytecode and interpret", 0 },
     {"compile",  'c', 0,      0,  "Compile input to assembly", 0 },
     {"jit",      'j', 0,      0,  "JIT-compile input and evaluate", 0 },
     {"print",    'p', 0,      0,  "Print parsed expression", 0 },
@@ -36,6 +38,7 @@ struct arguments
     bool debug; // Whether to activate Bison using debug trace
     bool compile; // Whether to compile the input
     bool jit; // Whether to JIT the input
+    bool virtual; // Whether to run on VM
     bool evaluate; // Whether to evaluate the input
     bool print; // Whether to print the input
     const char *output_file; // Where to output
@@ -64,6 +67,9 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state)
         break;
     case 'o':
         arguments->output_file = arg;
+        break;
+    case 'v':
+        arguments->virtual = true;
         break;
     case ARGP_KEY_ARG:
         argp_usage(state);
@@ -101,6 +107,8 @@ int main(int argc, char *argv[])
             fprintf(output, "%d\n", jit_eval_ast(ast));
         if (arguments.evaluate)
             fprintf(output, "%d\n", evaluate_ast(ast));
+        if (arguments.virtual)
+            fprintf(output, "%d\n", bytecompile_eval_ast(ast));
         if (arguments.print)
             print_ast(ast, output);
     }

@@ -20,3 +20,4 @@ include %D%/eval/local.am
 include %D%/jit/local.am
 include %D%/parse/local.am
 include %D%/print/local.am
+include %D%/vm/local.am

@@ -1,0 +1,14 @@
+jitters_LDADD += \
+    libvm.a \
+    $(NULL)
+
+noinst_LIBRARIES += \
+    libvm.a \
+    $(NULL)
+
+libvm_a_SOURCES = \
+    %D%/bytecode.c \
+    %D%/bytecode.h \
+    %D%/vm.c \
+    %D%/vm.h \
+    $(NULL)
