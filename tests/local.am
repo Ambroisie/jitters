@@ -5,7 +5,7 @@ TEST_LOG_DRIVER = \
 TESTS =
 
 # Leak suppresion file, because Asan screams about Criterion internals otherwise
-SUPPRESSION_FILE = $(top_srcdir)/%D%/unit/leak.suppr
+SUPPRESSION_FILE = $(srcdir)/%D%/unit/leak.suppr
 # Distribute the leak suppression file
 EXTRA_DIST += $(SUPPRESSION_FILE)
 
