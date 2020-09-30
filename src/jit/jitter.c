@@ -53,19 +53,19 @@ static void jit_binop(const struct binop_node* bin_op, struct vector *buf)
         return;
     }
 
-    const unsigned char handle_lhs[] = {
+    const unsigned char handle_rhs[] = {
         0x48, 0x83, 0xec, 0x04, // sub $0x4,%rsp
         0x89, 0x04, 0x24, // mov %eax,(%rsp)
     };
-    jit_ast_internal(bin_op->lhs, buf);
-    append_array(buf, handle_lhs, ARR_SIZE(handle_lhs));
+    jit_ast_internal(bin_op->rhs, buf);
+    append_array(buf, handle_rhs, ARR_SIZE(handle_rhs));
 
-    const unsigned char handle_rhs[] = {
+    const unsigned char handle_lhs[] = {
         0x8b, 0x3c, 0x24, // mov (%rsp),%edi
         0x48, 0x83, 0xc4, 0x04, // add $0x4,%rsp
     };
-    jit_ast_internal(bin_op->rhs, buf);
-    append_array(buf, handle_rhs, ARR_SIZE(handle_rhs));
+    jit_ast_internal(bin_op->lhs, buf);
+    append_array(buf, handle_lhs, ARR_SIZE(handle_lhs));
 
     const unsigned char handle_plus[] = {
         0x01, 0xf8, // add %edi,%eax
