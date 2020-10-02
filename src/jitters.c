@@ -15,6 +15,8 @@
 #include "print/printer.h"
 #include "vm/vm.h"
 
+extern FILE *yyin; // Flex input file
+
 const char *argp_program_version = PACKAGE_STRING;
 const char *argp_program_bug_address = "<" PACKAGE_BUGREPORT ">";
 
@@ -28,6 +30,7 @@ static struct argp_option options[] = {
     {"compile",  'c', 0,      0,  "Compile input to assembly", 0 },
     {"jit",      'j', 0,      0,  "JIT-compile input and evaluate", 0 },
     {"print",    'p', 0,      0,  "Print parsed expression", 0 },
+    {"input",    'i', "FILE", 0,  "Input from FILE instead of standard input", 0 },
     {"output",   'o', "FILE", 0,  "Output to FILE instead of standard output", 0 },
     {"debug",    'd', 0,      0,  "Emit debug output from parser", 0 },
     { 0 }
@@ -41,6 +44,7 @@ struct arguments
     bool virtual; // Whether to run on VM
     bool evaluate; // Whether to evaluate the input
     bool print; // Whether to print the input
+    const char *input_file; // Where to input
     const char *output_file; // Where to output
 };
 
@@ -58,6 +62,9 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state)
         break;
     case 'e':
         arguments->evaluate = true;
+        break;
+    case 'i':
+        arguments->input_file = arg;
         break;
     case 'j':
         arguments->jit = true;
@@ -90,6 +97,7 @@ int main(int argc, char *argv[])
     int ret = 0;
     struct arguments arguments = {
         .output_file = "-",
+        .input_file = "-",
     };
     FILE *output = stdout;
 
@@ -99,6 +107,8 @@ int main(int argc, char *argv[])
 
     if (strcmp(arguments.output_file, "-"))
         output = fopen(arguments.output_file, "w");
+    if (strcmp(arguments.input_file, "-"))
+        yyin = fopen(arguments.input_file, "r");
 
     if ((ret = yyparse(&ast)) == 0) {
         if (arguments.compile)
@@ -114,6 +124,8 @@ int main(int argc, char *argv[])
     }
 
     destroy_ast(ast);
+    if (strcmp(arguments.input_file, "-"))
+        fclose(yyin);
     if (strcmp(arguments.output_file, "-"))
         fclose(output);
 
