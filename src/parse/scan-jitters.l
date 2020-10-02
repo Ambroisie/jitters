@@ -1,4 +1,6 @@
 %{
+#include <stdio.h>
+
 #include "parse-jitters.h"
 
 #define YY_USER_ACTION \
@@ -42,4 +44,5 @@ int   [0-9]+
 
 {blank} { /* Do noting */ }
 
+. { fprintf(stderr, "Unknow character '%s'\n", yytext); return TOK_YYerror; }
 %%
