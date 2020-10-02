@@ -2,7 +2,7 @@
 m4_pattern_forbid([^(AM|AC|AX|LT)_])
 
 # Initialize the project name, version, and maitainer address
-AC_INIT([jitters], [1.1], [bruno@belanyi.fr])
+AC_INIT([jitters], [1.1.1], [bruno@belanyi.fr])
 # Only use C for this project
 AC_LANG([C])
 
