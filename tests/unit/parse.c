@@ -35,6 +35,11 @@ Test(parser, empty)
     do_incorrect("");
 }
 
+Test(parser, unknown_token)
+{
+    do_incorrect("@");
+}
+
 Test(parser, trailing_operator)
 {
     do_incorrect("1 +");
